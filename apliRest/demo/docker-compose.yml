@@ -1,0 +1,29 @@
+
+services:
+  java_app:
+    container_name: java_app
+    image: pee-java-app:1.0.0
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - java__db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://java__db:5432/bibliotecadb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: axe
+
+  java__db:
+    container_name: java__db
+    image: postgres:17
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: bibliotecadb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: axe
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:
